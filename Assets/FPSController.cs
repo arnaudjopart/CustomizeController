@@ -9,7 +9,7 @@ public class FPSController : MonoBehaviour {
     public float m_rotationSpeed;
     public float m_velocity;
 
-    public float speedH = 2.0f;
+    public float speedH = 5.0f;
     public float speedV = 2.0f;
 
     
@@ -31,7 +31,7 @@ public class FPSController : MonoBehaviour {
 
     private void ManageKeyboardInput()
     {
-        float rotationOnYAxis = Input.GetAxis("Horizontal");
+        float moveSide = Input.GetAxis("Horizontal");
         float moveForward = Input.GetAxis("Vertical");
 
         float speedPerFrame = m_moveSpeed*Time.deltaTime;
@@ -40,17 +40,18 @@ public class FPSController : MonoBehaviour {
         
         //m_rb.velocity = m_transform.forward * m_velocity*moveForward;
         m_transform.Translate( m_transform.InverseTransformDirection(m_transform.forward) * moveForward * speedPerFrame );
-        Debug.DrawLine( m_transform.position, m_transform.position+m_transform.forward * 3 );
-        m_transform.Rotate( 0, rotationOnYAxis * rotationSpeedPerFrame,0 );
+        m_transform.Translate( m_transform.InverseTransformDirection( m_transform.right ) * moveSide * speedPerFrame );
+        
+        //m_transform.Rotate( 0, rotationOnYAxis * rotationSpeedPerFrame,0 );
     }
 
     private void ManageMouseInput()
     {
         Vector3 mousePosition = Input.mousePosition;
-        yaw = speedH * Input.GetAxis( "Mouse X" );
-        pitch -= speedV * Input.GetAxis( "Mouse Y" );
-        m_transform.Rotate( 0, yaw, 0 );
-        Camera.main.transform.localEulerAngles = new Vector3( pitch, 0, 0.0f );
+        m_yaw = speedH * Input.GetAxis( "Mouse X" );
+        m_pitch -= speedV * Input.GetAxis( "Mouse Y" );
+        m_transform.Rotate( 0, m_yaw, 0 );
+        Camera.main.transform.localEulerAngles = new Vector3( m_pitch, 0, 0.0f );
 
     }
     #region Utils
@@ -61,8 +62,8 @@ public class FPSController : MonoBehaviour {
     private Transform m_transform;
     private Rigidbody m_rb;
 
-    private float yaw = 0.0f;
-    private float pitch = 0.0f;
+    private float m_yaw = 0.0f;
+    private float m_pitch = 0.0f;
     #endregion
 
 
