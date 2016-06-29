@@ -9,7 +9,7 @@ public class FPSController : MonoBehaviour {
     public float m_rotationSpeed;
     public float m_velocity;
 
-    public float speedH = 5.0f;
+    public float speedH = 20.0f;
     public float speedV = 2.0f;
 
     
@@ -49,9 +49,9 @@ public class FPSController : MonoBehaviour {
     private void ManageMouseInput()
     {
         Vector3 mousePosition = Input.mousePosition;
-        m_yaw = speedH * Input.GetAxis( "Mouse X" );
-        m_pitch -= speedV * Input.GetAxis( "Mouse Y" );
-        m_transform.Rotate( 0, m_yaw, 0 );
+        m_yaw =  Mathf.Abs(Input.GetAxis( "Mouse X" ))>0.05f? speedH * Input.GetAxis( "Mouse X" ):0;
+        m_pitch -= Mathf.Abs(Input.GetAxis( "Mouse Y" ))>0.05f? speedV * Input.GetAxis( "Mouse Y" ):0;
+        m_transform.Rotate( 0, m_yaw* speedH, 0 );
         Camera.main.transform.localEulerAngles = new Vector3( m_pitch, 0, 0.0f );
 
     }

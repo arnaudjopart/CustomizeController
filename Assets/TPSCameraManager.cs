@@ -42,8 +42,8 @@ public class TPSCameraManager : MonoBehaviour {
         Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
         RaycastHit hit;
 
-        float rotY = Input.GetAxis("Mouse X");
-        float rotX = Input.GetAxis("Mouse Y");
+        float rotY = Mathf.Abs(Input.GetAxis("Mouse X"))>.01f?Input.GetAxis("Mouse X"):0;
+        float rotX = Mathf.Abs(Input.GetAxis("Mouse Y"))>.05f?Input.GetAxis("Mouse Y"):0; ;
 
         if( Physics.Raycast( ray, out hit, 100 ) )
         {
