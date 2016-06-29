@@ -18,6 +18,7 @@ public class FPSController : MonoBehaviour {
     #region Main Methods
     void Start()
     {
+        Cursor.visible = false;
         m_transform = GetComponent<Transform>();
         m_rb = GetComponent<Rigidbody>();
     }
