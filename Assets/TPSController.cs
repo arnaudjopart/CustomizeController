@@ -17,11 +17,8 @@ public class TPSController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
 
-        ManageKeyboardInput();
-        ManageMouseInput();
-        
+        ManageKeyboardInput();        
 
     }
     void ManageKeyboardInput()
@@ -36,16 +33,9 @@ public class TPSController : MonoBehaviour {
 
         m_transform.Translate( m_transform.InverseTransformDirection( m_transform.forward ) * moveForward * speedPerFrame );
         m_transform.Translate( m_transform.InverseTransformDirection( m_transform.right ) * moveSide * speedPerFrame );
-        
-        
+
     }
 
-    void ManageMouseInput()
-    {
-        
-        
-        
-    }
     #region Private Members
 
     Transform m_transform; 

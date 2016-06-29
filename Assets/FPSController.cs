@@ -8,6 +8,8 @@ public class FPSController : MonoBehaviour {
     public float m_moveSpeed;
     public float m_rotationSpeed;
     public float m_velocity;
+    public Transform m_laserStartPosition;
+    public LayerMask m_laserCollideWith;
 
     public float speedH = 20.0f;
     public float speedV = 2.0f;
@@ -21,6 +23,7 @@ public class FPSController : MonoBehaviour {
         Cursor.visible = false;
         m_transform = GetComponent<Transform>();
         m_rb = GetComponent<Rigidbody>();
+        m_laserLR = m_laserStartPosition.GetComponent<LineRenderer>();
     }
 
     // Update is called once per frame
@@ -28,6 +31,7 @@ public class FPSController : MonoBehaviour {
     {
         ManageKeyboardInput();
         ManageMouseInput();
+        ManageLaser();
     }
 
     private void ManageKeyboardInput()
@@ -55,6 +59,25 @@ public class FPSController : MonoBehaviour {
         Camera.main.transform.localEulerAngles = new Vector3( m_pitch, 0, 0.0f );
 
     }
+    private void ManageLaser()
+    {
+        Ray ray = new Ray(m_laserStartPosition.position,m_laserStartPosition.forward);
+        Debug.DrawLine( m_laserStartPosition.position, m_laserStartPosition.position + m_laserStartPosition.forward * 10 );
+        RaycastHit hit;
+        float lengthOfLaser;
+        if( Physics.Raycast( ray, out hit, 100, m_laserCollideWith  ) )
+        {
+            lengthOfLaser = hit.distance;
+        }
+        else
+        {
+            lengthOfLaser =  20;
+        }
+        //m_laserLR.material.color = Color.red; 
+        m_laserLR.SetPosition( 0, m_laserStartPosition.position );
+        m_laserLR.SetPosition( 1, m_laserStartPosition.position+ m_laserStartPosition.forward* lengthOfLaser);
+
+    }
     #region Utils
 
     #endregion
@@ -62,6 +85,7 @@ public class FPSController : MonoBehaviour {
     #region Private Members
     private Transform m_transform;
     private Rigidbody m_rb;
+    private LineRenderer m_laserLR;
 
     private float m_yaw = 0.0f;
     private float m_pitch = 0.0f;

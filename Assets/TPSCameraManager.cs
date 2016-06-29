@@ -18,42 +18,29 @@ public class TPSCameraManager : MonoBehaviour {
     void Start()
     {
         m_transform = GetComponent<Transform>();
-        //m_transform.position = m_player.position + m_startOffSetPlayer;
+        
         
     }
 
     // Update is called once per frame
     void Update()
     {
-
         ManageMouseInput();
-
-
-
-
     }
     void ManageMouseInput()
     {
-        m_transform.position = m_player.position + m_startOffSetPlayer + m_rotationVector;
-        m_transform.LookAt( m_player );
-
-        //angle += 10*Time.deltaTime;
-
-        Ray ray = Camera.main.ScreenPointToRay (Input.mousePosition);
-        RaycastHit hit;
+        
+        m_transform.position = m_player.position + m_startOffSetPlayer;
+        m_transform.LookAt( m_player );   
 
         float rotY = Mathf.Abs(Input.GetAxis("Mouse X"))>.01f?Input.GetAxis("Mouse X"):0;
         float rotX = Mathf.Abs(Input.GetAxis("Mouse Y"))>.05f?Input.GetAxis("Mouse Y"):0; ;
 
-        if( Physics.Raycast( ray, out hit, 100 ) )
-        {
-            lookPosition = hit.point;
-        }
-
-        m_rotationAngle += rotY * m_rotationSpeed;//m_rotationAngle-Vector3.Angle(m_player.position,lookPosition);
+        m_rotationAngle += rotY * m_rotationSpeed;
         m_flipAngle -= rotX * m_rotationSpeed;
         m_transform.RotateAround( m_player.position, Vector3.up, m_rotationAngle );
         m_transform.RotateAround( m_player.position, m_transform.right, m_flipAngle );
+        
     }
     #endregion
 
