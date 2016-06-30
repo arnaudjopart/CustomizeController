@@ -134,11 +134,12 @@ public class FPSController : MonoBehaviour {
             Quaternion rotation = Quaternion.LookRotation(direction,m_transform.up);
             m_startRotationLerp = m_transform.rotation;
             m_endRotationLerp = rotation;
+            
             //m_transform.rotation = rotation;
 
-            Camera.main.transform.LookAt( _target );
+            
             m_yaw = 0;
-            m_pitch = Camera.main.transform.localEulerAngles.x;
+            
             m_currentLerptime = 0;
             m_isLerping = true;
         }
@@ -155,14 +156,34 @@ public class FPSController : MonoBehaviour {
         {
             m_currentLerptime = m_lerpTime;
             m_isLerping = false;
+            Camera.main.transform.LookAt( m_currentTarget );
+            m_pitch = Camera.main.transform.localEulerAngles.x;
         }
         float perc = m_currentLerptime/m_lerpTime;
 
         m_transform.rotation = Quaternion.Lerp( _start, _stop, perc );
 
     }
+    private void LerpCameraAngle(Quaternion _start, Quaternion _stop)
+    {
+        print( _start );
+        if( m_currentLerptime < m_lerpTime )
+        {
+            m_currentLerptime += Time.deltaTime;
+        }
+        else
+        {
+            m_currentLerptime = m_lerpTime;
+            m_isLerping = false;
+        }
+        float perc = m_currentLerptime/m_lerpTime;
+
+        m_transform.rotation = Quaternion.Lerp( _start, _stop, perc );
+
+    }
+
     #endregion
-    
+
     #region Private Members
     private Transform m_transform;
     private Rigidbody m_rb;
@@ -172,7 +193,7 @@ public class FPSController : MonoBehaviour {
     private float m_pitch = 0.0f;
     private Transform m_currentTarget;
     private float m_currentLerptime;
-    private float m_lerpTime=1f;
+    private float m_lerpTime=.05f;
     private Quaternion m_startRotationLerp,m_endRotationLerp;
     private bool m_isLerping;
     #endregion
